@@ -1,9 +1,24 @@
 from django.shortcuts import render
 from register.forms import LoginForm,RegisterForm
 
+from django.contrib.auth import authenticate,login,logout
+from django.http import HttpResponseRedirect, HttpResponse
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 def home(request):
     return render(request,'register/index.html')
+
+@login_required
+def special(request):
+    return HttpResponse("You are logged in")
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('home'))
+
 
 def register(request):
 
@@ -35,4 +50,31 @@ def register(request):
                   {'loginform':loginform,
                    'registerform':registerform,
                    'registered':registered})
+
+def login_user(request):
+
+    if request.method=='POST':
+        username =request.POST.get('username')
+        password=request.POST.get('password')
+
+        user=authenticate(username=username,password=password)
+
+        if user:
+            if user.is_active:
+                login(request,user)
+                return HttpResponseRedirect(reverse('home'))
+
+            else:
+                return HttpResponse("Account Not Active")
+
+        else:
+            print("Login Failed")
+            print("username:{} and password {} ".format(username,password))
+            return HttpResponse("Invalid login details")
+
+    else:
+        return render(request,'register/login.html',{})
+
+
+
 
