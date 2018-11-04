@@ -1,0 +1,85 @@
+{% extends 'register/base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+
+{% if registered %}
+        <div class="row">
+    <div class="col s4 offset-s4"><blockquote ><h5> Please verify your email address</h5></blockquote></div></div>
+{% else %}
+    <div class="row">
+    <div class="col s4 offset-s4"><blockquote ><h5> Register:</h5></blockquote></div></div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+
+
+<form class="col s12 m4 l8 " method="post" name="myform" id="myform" onsubmit="return Validate()">
+    {% csrf_token %}
+    <div class="row">
+      <div class="row">
+        <div class="input-field col s2 offset-s4">
+          <input id="first_name" type="text" class="validate" name="first_name">
+          <label for="first_name">First Name</label>
+        </div>
+        <div class="input-field col s2">
+          <input id="last_name" type="text" class="validate" name="last_name">
+          <label for="last_name">Last Name</label>
+        </div>
+      </div>
+   <!--     <form class="col s12 m4 l8 ">
+        <div class="row">
+        <div class="input-field col s4  offset-s4">
+          <label for="date_of_birth">date of birth</label>
+            <input id="date_of_birth" type="text" class="datepicker" name="date_of_birth">
+
+        </div>
+      </div>
+        </form> -->
+        <div class="row">
+        <div class="input-field col s4 offset-s4">
+          <input id="username" type="text" class="validate" name="username">
+          <label for="username">User Name</label>
+        </div>
+            <div class="row">
+        <div class="input-field col s4 offset-s4">
+          <input id="email" type="email" class="validate" name="email">
+          <label for="email">Email</label>
+        </div>
+      </div>
+            <div class="row">
+        <div class="input-field col s4 offset-s4">
+          <input id="password" type="password" class="validate" name="password">
+          <label for="password">Password</label>
+           </div>
+      </div>
+                   <div class="row">
+        <div class="input-field col s4 offset-s4">
+            <input id="password2" type="password" class="validate" name="pa">
+          <label id="lblPasswordConfirm" data-error="Password not match" data-success="Password Match">Confirm Password</label>
+        </div>
+      </div>
+    <div class="input-field col s4 offset-s5">
+    <input class="waves-effect waves-light btn-large" type="submit" name="submit" value="Register" />
+</div>
+
+  </div>
+
+</form>
+<script>
+function Validate() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("password2").value;
+        if (password != confirmPassword) {
+            alert("Passwords do not match.");
+            return false;
+        }
+        return true;
+    }
+</script>
+{% endif %}
+
+
+{% endblock %}
+

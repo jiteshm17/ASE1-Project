@@ -1,0 +1,30 @@
+{% extends 'register/base.html'%}
+{% block body_block %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<div class="row">
+    <div class="col s4 offset-s4"><blockquote ><h5> Login:</h5></blockquote></div></div>
+<form action="{% url 'register:login_user' %}" method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="input-field col s4 offset-s4">
+          <input id="username" type="text" class="validate" name="username">
+          <label for="username">Username</label>
+        </div>
+      </div>
+            <div class="row">
+        <div class="input-field col s4 offset-s4">
+          <input id="password" type="password" class="validate" name="password">
+          <label for="password">Password</label>
+        </div>
+                <div class="row">
+       <a class="input-field col s4 offset-s4" href="{% url 'register:forgot_pass' %}">Forgot password?</a>
+        <div class="input-field col s4 offset-s5">
+    <input class="waves-effect waves-light btn-large" type="submit" name="" value="Login">
+</div>
+                    </div>
+</form>
+
+
+
+{% endblock %}
