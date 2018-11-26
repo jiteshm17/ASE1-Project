@@ -21,14 +21,14 @@ def customer_signup(request):
         form = UserCreationForm(request.POST)
         ContactForm = Contact_Form(request.POST)
         if form.is_valid() and ContactForm.is_valid():
-            PhNo = ContactForm.cleaned_data.get('phone_number')
+            ph_no = ContactForm.cleaned_data.get('phone_number')
             addr = ContactForm.cleaned_data.get('address')
             user = form.save(commit=False)
             user.set_password(form.cleaned_data.get('password'))
             user.is_active = False
             user.save()
             Customer_Prof = CustomerProfile.objects.get_or_create(Customer=user)[0]
-            Customer_Prof.phone_number = PhNo
+            Customer_Prof.phone_number = ph_no
             Customer_Prof.address = addr
             Customer_Prof.save()
             current_site = get_current_site(request)
@@ -72,16 +72,24 @@ def activate(request, uidb64, token):
 def vendor_signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
-        if form.is_valid():
+        contact_form = Contact_Form(request.POST)
+        if form.is_valid() and contact_form.is_valid():
+            ph_no = contact_form.cleaned_data.get('phone_number')
+            addr = contact_form.cleaned_data.get('address')
             user = form.save(commit=False)
             user.set_password(form.cleaned_data.get('password'))
             user.save()
-            VendorProfile.objects.create(Vendor=user)
+            vendor_prof = VendorProfile.objects.get_or_create(Vendor=user)[0]
+            vendor_prof.phone_number = ph_no
+            vendor_prof.address = addr
+            vendor_prof.save()
             return redirect('vendor:actor_authentication:login_all')
     else:
         form = UserCreationForm()
+        contact_form = Contact_Form()
     context = {
         'form': form,
+        'ContactForm': contact_form
     }
     return render(request, 'vendor/signup.html', context)
 

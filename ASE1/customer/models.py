@@ -12,7 +12,6 @@ from django.core.validators import MaxValueValidator
 
 class CustomerProfile(models.Model):
     Customer = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cus')
-    prod = models.ManyToManyField(Product, blank=True)
     phone_number = models.IntegerField(null=True, validators=[MaxValueValidator(9999999999)])
     address = models.TextField(null=True)
 

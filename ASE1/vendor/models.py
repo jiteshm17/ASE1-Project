@@ -27,6 +27,7 @@ class Product(models.Model):
 class VendorProfile(models.Model):
     Vendor = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.IntegerField(null=True)
+    address = models.TextField(null=True)
 
     def __str__(self):
         return self.Vendor.username

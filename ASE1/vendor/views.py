@@ -1,17 +1,46 @@
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from cart.models import Order
 from vendor.forms import ProductsAdd
-from vendor.models import Product, Category
+from vendor.models import Product, Category, VendorProfile
+from customer.forms import Contact_Form, UpdateProfile
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from ASE1.decorators import vendor_required
+
+
+def profile(request):
+    a = request.user
+    customer = VendorProfile.objects.get(Vendor=a)
+    if request.method == 'POST':
+        form = UpdateProfile(request.POST, instance=a)
+        ContactForm = Contact_Form(request.POST, instance=customer)
+        if form.is_valid() and ContactForm.is_valid():
+            ph_no = ContactForm.cleaned_data.get('phone_number')
+            addr = ContactForm.cleaned_data.get('address')
+            user = form.save(commit=False)
+            user.save()
+
+            customer.phone_number = ph_no
+            customer.address = addr
+            customer.save()
+            return redirect('customer:home')
+    else:
+        form = UpdateProfile(instance=request.user)
+        ContactForm = Contact_Form(instance=customer)
+        # placed_order = get_user_order(request)
+        context = {
+            'form': form,
+            'ContactForm': ContactForm,
+        }
+        return render(request, 'vendor/profile.html', context)
 
 
 def index(request):
     return render(request, 'vendor/base.html')
 
 
-def itemsview(request, pk):
+def items_view(request, pk):
     cat = Category.objects.get(id=pk)
     current_order_products = []
     if request.user.is_authenticated:
@@ -87,3 +116,26 @@ def delete_product(request, id):
 def view_orders(request):
     orders = Order.objects.filter(is_ordered=True)
     return render(request, 'vendor/show_orders.html', {'orders': orders})
+
+
+def search_results(request):
+    products = []
+    current_order_products = []
+    query = request.GET.get('q')
+    if query:
+        products = Product.objects.filter(
+            Q(prod_name__icontains=query) |
+            Q(brand__icontains=query) |
+            Q(category__cat_name__contains=query)
+        )
+    if request.user.is_authenticated:
+        filtered_orders = Order.objects.filter(owner=request.user.cus)
+        if filtered_orders.exists():
+            user_order = filtered_orders[0]
+            user_order_items = user_order.items.all()
+            current_order_products = [product.product for product in user_order_items]
+    context = {
+        "products": products,
+        "current_order_products": current_order_products,
+    }
+    return render(request, 'customer/search_results.html', context)

@@ -7,9 +7,9 @@ app_name = 'customer'
 
 urlpatterns = [
     path('home/', views.list_categories, name='home'),
-    path('home/<int:pk>/', views.itemsview, name='items'),
+    path('home/<int:pk>/', views.items_view, name='items'),
     path('authentication/', include('actor_authentication.urls')),
-    path('search_results/', views.Search_Results, name="search_results"),
+    path('search_results/', views.search_results, name="search_results"),
     path('profile/', views.profile, name='profile'),
     path('password_reset/', PasswordResetView.as_view(), name='forgot_pass'),
     path('password_reset_done/', PasswordResetDoneView.as_view(), name='password_reset_done'),

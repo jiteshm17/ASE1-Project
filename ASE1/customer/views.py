@@ -23,25 +23,23 @@ def index(request):
 
 def profile(request):
     a = request.user
-    print(a)
     customer = CustomerProfile.objects.get(Customer=a)
     if request.method == 'POST':
         form = UpdateProfile(request.POST, instance=a)
         ContactForm = Contact_Form(request.POST, instance=customer)
         if form.is_valid() and ContactForm.is_valid():
-            PhNo = ContactForm.cleaned_data.get('phone_number')
+            ph_no = ContactForm.cleaned_data.get('phone_number')
             addr = ContactForm.cleaned_data.get('address')
             user = form.save(commit=False)
             user.save()
 
-
-            customer.phone_number = PhNo
+            customer.phone_number = ph_no
             customer.address = addr
             customer.save()
             return redirect('customer:home')
     else:
         form = UpdateProfile(instance=request.user)
-        ContactForm = Contact_Form(instance = customer)
+        ContactForm = Contact_Form(instance=customer)
         placed_order = get_user_order(request)
         context = {
             'form': form,
@@ -51,8 +49,7 @@ def profile(request):
         return render(request, 'customer/profile.html', context)
 
 
-
-def itemsview(request, pk):
+def items_view(request, pk):
     cat = Category.objects.get(id=pk)
     current_order_products = []
     if request.user.is_authenticated:
@@ -70,7 +67,7 @@ def itemsview(request, pk):
     return render(request, "customer/items.html", context)
 
 
-def Search_Results(request):
+def search_results(request):
     products = []
     current_order_products = []
     query = request.GET.get('q')
