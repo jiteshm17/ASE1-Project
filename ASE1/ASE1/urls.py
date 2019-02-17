@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from customer.views import list_categories
 
 urlpatterns = [
+    path('', list_categories),
     path('vendor/', include('vendor.urls')),
     path('customer/', include('customer.urls')),
     path('cart/', include('cart.urls')),
