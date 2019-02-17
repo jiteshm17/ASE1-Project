@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'qr_code',
+    'crispy_forms',
 ]
 
 CKEDITOR_UPLOAD_PATH = "ckeditor_uploads/"

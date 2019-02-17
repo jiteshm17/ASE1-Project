@@ -2876,7 +2876,7 @@ input.checkbox:checked:after {
 	}
 	.banner_nav_right_banner1, .banner_nav_right_banner, .banner_nav_right_banner2 {
 		padding: 7em 13em 0 0;
-		min-height: 320px;
+		min-height: 375px;
 	}
 	.more {
 		margin-left: 51em;
@@ -4812,4 +4812,3 @@ input.checkbox:checked:after {
 		font-size: 13px;
 	}
 }
-html{overflow-x: hidden}

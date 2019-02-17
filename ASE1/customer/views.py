@@ -31,7 +31,7 @@ def QrCode(request, id):
     return render(request, "customer/QrCode.html", context)
 
 
-@login_required(login_url='customer:actor_authentication:login_all')
+@login_required
 def profile(request):
     a = request.user
     print(a)
@@ -61,16 +61,10 @@ def profile(request):
         return render(request, 'customer/profile.html', context)
 
 
-def show_orders(request):
-    placed_order = get_user_order(request)
-    context = {'ordre': placed_order}
-    return render(request, 'customer/show-orders.html', context)
-
-
 def itemsview(request, pk):
+    categories = Category.objects.all()
     cat = Category.objects.get(id=pk)
     current_order_products = []
-    is_vendor = False
     if request.user.is_authenticated:
         filtered_orders = Order.objects.filter(owner=request.user.cus, is_ordered=False)
         if filtered_orders.exists():
@@ -78,14 +72,8 @@ def itemsview(request, pk):
             user_order_items = user_order.items.all()
             current_order_products = [product.product for product in user_order_items]
 
-        if request.user.is_authenticated:
-            try:
-                vendor = request.user.vendorprofile
-                is_vendor = True
-            except:
-                pass
     context = {
-        "is_vendor": is_vendor,
+        'categories':categories,
         'cat': cat,
         'current_order_products': current_order_products
     }
@@ -163,7 +151,7 @@ def customer_login(request):
     return render(request, 'customer/login.html', {'form': form})
 
 
-@login_required(login_url='customer:actor_authentication:login_all')
+@login_required
 def customer_logout(request):
     logout(request)
     return render(request, 'customer/logout.html')
@@ -174,6 +162,7 @@ def forgot_pass(request):
 
 
 def itemdetailview(request, pk, ck):
+    categories = Category.objects.all()
     cat = Category.objects.get(id=pk)
     prod = Product.objects.get(id=ck)
     products = Product.objects.filter(category=cat)
@@ -186,6 +175,7 @@ def itemdetailview(request, pk, ck):
             user_order_items = user_order.items.all()
             current_order_products = [product.product for product in user_order_items]
     context = {
+        'categories': categories,
         'cat': cat,
         'prod': prod,
         'vendors': all_vendors,
@@ -202,7 +192,7 @@ def about_us(request):
     return render(request, 'customer/about_us.html')
 
 
-@login_required(login_url='customer:actor_authentication:login_all')
+@login_required
 def reviewtext(request, categ, product):
     prod = get_object_or_404(Product, pk=product)
     cat = get_object_or_404(Category, pk=categ)

@@ -15,6 +15,11 @@ class AddTOCartTest(TestCase):
         response = self.client.get(reverse('cart:add_to_cart', kwargs={'prod_id': 1}))
         self.assertRedirects(response, '/customer/authentication/login/?next=/cart/add-to-cart/1/')
 
+    # def test_logged_in_uses_correct_template(self):
+    #     login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+    #     response = self.client.get(reverse('cart:add_to_cart', kwargs={'prod_id': 1}),data={'vendorid':})
+    #     self.assertEqual(response.status_code, 200)
+
 
 class DeleteFromCart(TestCase):
     def setUp(self):
@@ -87,3 +92,10 @@ class UpdateTransactionsTest(TestCase):
     def test_redirect_if_not_logged_in(self):
         response = self.client.get(reverse('cart:update'))
         self.assertRedirects(response, '/customer/authentication/login/?next=/cart/update_transaction_records/')
+
+    # def test_logged_in_uses_correct_template(self):
+    #     login = self.client.login(username='testuser', password='mypassword')
+    #     order_item = OrderItem.objects.get(id=1)
+    #     order_item.is_ordered = True
+    #     response = self.client.get(reverse('cart:update'))
+    #     self.assertRedirects(response, reverse('customer:profile')

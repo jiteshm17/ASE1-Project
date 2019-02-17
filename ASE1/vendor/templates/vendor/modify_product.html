@@ -1,9 +1,21 @@
 {% extends 'vendor/base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
-<form method="post" enctype="multipart/form-data">
-{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="Update">
-</form>
+    <div class="login">
+        <div class="login_module">
+            <div class="module form-module">
+                <div class="toggle">
+                </div>
+                <div class="form">
+                    <h2>Modify Product</h2>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <br>
+                        <input type="submit" value="Update">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
