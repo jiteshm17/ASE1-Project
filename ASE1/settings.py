@@ -24,7 +24,7 @@ SECRET_KEY = ')0!7v5+6(04(tys=5nfx#a95f_mq8tnwf+$8#zg7z3mf19s86u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','.herokuapp.com']
 
 # Application definition
 
@@ -87,6 +87,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ASE1.wsgi.application'
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
