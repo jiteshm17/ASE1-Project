@@ -18,7 +18,7 @@ django-mysql==2.4.1
 django-qr-code==1.0.0
 django-rest-framework==0.1.0
 django-widget-tweaks==1.4.3
-djangorestframework==3.9.0
+djangorestframework==3.11.2
 djangorestframework-jwt==1.11.0
 gunicorn==19.9.0
 idna==2.8
