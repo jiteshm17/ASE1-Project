@@ -22,7 +22,7 @@ djangorestframework==3.9.0
 djangorestframework-jwt==1.11.0
 gunicorn==19.9.0
 idna==2.8
-lxml==4.2.5
+lxml==4.6.3
 mysql-connector==2.1.6
 Pillow==5.4.1
 psycopg2==2.7.7
